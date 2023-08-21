@@ -15,33 +15,41 @@
  */
 
 
-// includes
 #include <cs50.h>
 #include <stdio.h>
+#include <stdbool.h>
 
-// declare function prototype
-int triangleValidator(int a, int b, int c);
+// Declare function prototype
+bool isValidTriangle(int a, int b, int c);
 
-// triangle function
-int triangleValidator(int a, int b, int c)
+// isValidTriangle function
+bool isValidTriangle(int a, int b, int c)
 {
-	if ((a + b > c) && (a + c > b) && (b + c > a))
-		return 1;
-	else 
-		return 0;
+    // Check for negative side lengths
+    if (a <= 0 || b <= 0 || c <= 0)
+    {
+        return false; // Invalid triangle
+    }
+    
+    // Check the triangle inequality theorem using <= checks
+    if ((a + b <= c) || (a + c <= b) || (b + c <= a))
+    {
+        return false; // Invalid triangle
+    }
+    
+    return true; // Valid triangle
 }
 
 int main(void)
 {
-    // ask user for input
-	printf("Let's take the sides of your triangle: ");
+    // Ask user for input
+    printf("Let's take the sides of your triangle: ");
     int a = get_int("Give me the first side: ");
     int b = get_int("Give me the second side: ");
-	int c = get_int("Give me the third side: ");
+    int c = get_int("Give me the third side: ");
 
-    // add the two numbers together via a function call
-    
-	if (triangleValidator(a, b, c))
+    // Check the validity of the triangle using isValidTriangle function
+    if (isValidTriangle(a, b, c))
     {
         printf("The triangle is valid!\n");
     }
@@ -52,3 +60,4 @@ int main(void)
 
     return 0;
 }
+
