@@ -1,1 +1,1 @@
-pip install libraries goe in here
+pip install tabulate
