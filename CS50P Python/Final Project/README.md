@@ -1,33 +1,83 @@
-Creating an entire project may seem daunting. Here are some questions that you should think about as you start:
+# Family Expenses Manager
+A command-line interface of an expense manager using Python
 
-What will your software do? What features will it have? How will it be executed?
-The software will take a family income, the monthly expenses and make calculations so that each member contributes in a fair manner.
-Features: 
-1 - Will save the name and salary of each family member
-2 - Will reserve 10% of each member for savings
-3 - Will save all fixed monthly expenses
-4 - Will calculate how much each member has to contribute, taking the person's salary in consideration
+[Video Demo](https://youtu.be/ZVfqqai0VIc)
 
-Execution:
-1 - Double click to start or python command
-2 - Print instructions to guide the person. 1 - Show Earnings and savings 2 - Show expenses 3 - Add expenses 4 - Remove expenses
-What new skills will you need to acquire? What topics will you need to research?
-DB manipulation?
-How to show data in table in terminal. SQL queries?
-If working with one or two classmates, who will do what?
-N/A
-In the world of software, most everything takes longer to implement than you expect. And so it’s not uncommon to accomplish less in a fixed amount of time than you hope. What might you consider to be a good outcome for your project? A better outcome? The best outcome?
-1 - Essential: Saving expenses and salaries and divide equally
-2 - Very desired: Update salaries and expenses and divide by %
-3 - GTH: Interaction menu and some way to show the data in table. sql query?
-Consider making goal milestones to keep you on track.
+---
+
+## Installation
+Use [pip](https://pip.pypa.io/en/stable/) to install the package `tabulate`
+```
+$ pip install tabulate
+```
+
+---
+
+## Usage
+Use [python](https://www.python.org/) to run the application
+```
+$ python project.py
+```
+Use [pytest](https://docs.pytest.org/en/7.2.x/) to test the application
+```
+$ pytest test_project.py
+```
+
+---
+
+## Description
+This is a program that allows you to save the family's names, income and expenses.
+
+It also performes a check up so you can the me sum of the income, expenses and check your net balance.
 
 
+Starting the program takes you to the main menu.
 
-Create a README.md text file (named exactly that!) in your ~/project folder that explains your project. This file should include your Project title, the URL of your video (created in step 1 above) and a description of your project. You may use the below as a template.
+Following the you just input the letter corresponding to the desired action and press enter.
 
+Main menu areas:
+- Check Status
+- Expenses
+- Family
 
- # YOUR PROJECT TITLE
-    #### Video Demo:  <URL HERE>
-    #### Description:
-    TODO
+Check status will present:
+- Income
+- Expenses
+- Net Balance
+
+Expenses menu allows the user to:
+- Add a new expense, by description and amount
+- Edit an existing expense
+- Delete an expense
+- Check all actual expenses
+
+Family menu allows the user to:
+- Add a new family member by first name, last name and salary. Entry date also gets saved
+- Edit a member's name and salary
+- Delete a member
+- Check all members and their salaries
+
+Data is saved even if you close the program.
+
+All data is saved in two csv files:
+- family.csv to store family data
+- expenses.csv to store expense data
+
+I hope you find it useful.
+
+---
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+## Considerations
+Only a simple logic of suming salaries and expenses was apllied to explore the concept.
+
+It can be improved in several ways. It can be used to check each person's income and adjust the expenses so in cases where a couple has a big income difference it will be less harsh for who earns less.
+
+Or in a students home, it can be used to divide the monthly expenses equaly.
+
+Also it can be easily updated to check for savings, taking 10% of the income to be family's csv in a new field.
+
+Feel free to give ideas on how I can improve it

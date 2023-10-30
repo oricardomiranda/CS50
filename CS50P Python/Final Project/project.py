@@ -3,37 +3,31 @@ import csv
 import os
 from datetime import date
 
+
 def main():
-    print("\nFamily Expense Manager\n")
+    print("\n**Family Expenses Manager**")
     running = True
 
     while running:
-        action = main_menu()
-
-        if action == "C":
-            # Implement the action for checking status
-            pass
-        elif action == "S":
-            # Implement the action for managing salaries
-            pass
-        elif action == "E":
-            # Implement the action for tracking expenses
-            pass
-        elif action == "F":
-            running = family()  # Check if the user wants to continue
-        else:
-            running = False
-            print("Goodbye!")
-
-def main_menu():
-    instructions = [
+        instructions = [
         {"Key": "C", "Action": "Check Status"},
-        {"Key": "S", "Action": "Salaries"},
         {"Key": "E", "Action": "Expenses"},
         {"Key": "F", "Action": "Family"},
         {"Key": "Q", "Action": "Quit"}
     ]
-    return get_user_choice(instructions)
+        action = get_user_choice(instructions)
+
+        if action == "C":
+            running = check_status()
+        elif action == "E":
+            running = expenses()
+        elif action == "F":
+            running = family()
+        else:
+            running = False
+            print("\nGoodbye!\n")
+
+
 
 def get_user_choice(menu):
     while True:
@@ -43,11 +37,47 @@ def get_user_choice(menu):
             return choice
         print("Invalid action, try again.")
 
+
+def check_status():
+    family_file = "family.csv"
+    expenses_file = "expenses.csv"
+
+    if not os.path.exists(family_file):
+        print("\nThere are no family members. Please choose another option.")
+        return True
+
+    with open(family_file, mode='r') as file:
+        family_reader = list(csv.DictReader(file))
+
+    if not os.path.exists(expenses_file):
+        print("\nThere are no expenses. Please choose another option.")
+        return True
+
+    with open(expenses_file, mode='r') as file:
+        expenses_reader = list(csv.DictReader(file))
+
+    total_salary = calculate_total_salary(family_file)
+    total_expenses = calculate_total_expenses(expenses_file)
+
+    net_balance = total_salary - total_expenses
+
+    table_data = [
+        ["Total Salary", f"$ {total_salary}"],
+        ["Total Expenses", f"$ {total_expenses}"],
+        ["",""],
+        ["Net Balance", f"$ {net_balance}"]]
+
+    print("\nFamily Financial Checkup")
+    print(tabulate(table_data, tablefmt="rounded_outline"))
+
+    return True
+
+
 def family():
     instructions = [
         {"Key": "A", "Action": "Add new family member"},
         {"Key": "E", "Action": "Edit a family member's data"},
-        {"Key": "F", "Action": "Check a family member's financial data"},
+        {"Key": "C", "Action": "Check a family member's financial data"},
         {"Key": "D", "Action": "Delete a family member"},
         {"Key": "Q", "Action": "Quit to Main Menu"}
     ]
@@ -64,23 +94,17 @@ def family():
         family_action = input("Choose one action to proceed: ").strip().upper()
 
         if family_action == "A":
-            # Code for adding a new family member
             add_family_member(csv_file)
         elif family_action == "E":
-            # Code for editing a family member's data
             edit_family_member(csv_file)
-        elif family_action == "F":
-            # Code for checking a family member's financial data
+        elif family_action == "C":
             check_family_member(csv_file)
         elif family_action == "D":
-            # Code for deleting a family member
             delete_family_member(csv_file)
         elif family_action == "Q":
-            # Return False to indicate that the user wants to quit the family submenu
             return True
         else:
             print("Invalid action, try again.")
-    # After the while loop, you can return True to continue running the main menu
     return True
 
 
@@ -88,10 +112,9 @@ def add_family_member(csv_file):
     print("Registering a new family member")
     first_name = input("Enter first name: ")
     last_name = input("Enter last name: ")
-    salary = input("Enter salary: ")
+    salary = input("Enter salary: $")
     entry_date = date.today()
 
-    # Check if the file exists or is empty
     if not os.path.exists(csv_file) or os.path.getsize(csv_file) == 0:
         with open(csv_file, mode='w', newline='') as file:
             writer = csv.writer(file)
@@ -113,15 +136,13 @@ def add_family_member(csv_file):
 def edit_family_member(csv_file):
     with open(csv_file, mode='r') as file:
         reader = list(csv.DictReader(file))
-        # Checking if we have family members
         if not reader:
             print("There are no family members")
             return
 
         selected_member_id = select_family_member_id(reader)
 
-
-        if select_family_member_id == 0:
+        if selected_member_id == 0:
             print("Update canceled.")
             return
 
@@ -129,7 +150,7 @@ def edit_family_member(csv_file):
 
         updated_first_name = input(f"Enter new first name for {selected_member['First Name']}: ")
         updated_last_name = input(f"Enter new last name for {selected_member['Last Name']}: ")
-        updated_salary = input(f"Enter new salary for {selected_member['Salary']}: ")
+        updated_salary = input(f"Enter new salary for {selected_member['Salary']}: $")
 
         selected_member['First Name'] = updated_first_name
         selected_member['Last Name'] = updated_last_name
@@ -143,17 +164,17 @@ def edit_family_member(csv_file):
 
         print("Family member updated.")
 
+
 def check_family_member(csv_file):
     with open(csv_file, mode='r') as file:
         reader = list(csv.DictReader(file))
-        # Checking if we have family members
         if not reader:
             print("There are no family members")
             return
 
         selected_member_id = select_family_member_id(reader)
 
-        if select_family_member_id == 0:
+        if selected_member_id == 0:
             print("Check canceled.")
             return
 
@@ -163,27 +184,37 @@ def check_family_member(csv_file):
         return
 
 
-"""def delete_family_member(csv_file):
+def delete_family_member(csv_file):
     with open(csv_file, mode='r') as file:
-    reader = list(csv.DictReader(file))
-    # Checking if we have family members
-    if not reader:
-        print("There are no family members")
-        return
+        reader = list(csv.DictReader(file))
+        if not reader:
+            print("There are no family members")
+            return
 
-    selected_member_id = select_family_member_id(reader)
+        selected_member_id = select_family_member_id(reader)
 
-    if select_family_member_id == 0:
-        print("Check canceled.")
-        return
+        if selected_member_id == 0:
+            print("Delete canceled.")
+            return
 
-    selected_member = reader[selected_member_id - 1]
+        selected_member = reader[selected_member_id - 1]
 
-    print("Selected family member to delete:")
-    print(tabulate([selected_member], headers="keys", tablefmt="rounded_outline"))
+        print("The following member was selected: ")
+        print(tabulate([selected_member], headers="keys", tablefmt="rounded_outline"))
 
-    confirmation =
-    return"""
+        confirm_deletion = input("Are you sure you want to delete this family member?(yes/no) ").strip().lower()
+
+        if confirm_deletion == "yes":
+            del reader[selected_member_id - 1]
+
+            with open(csv_file, mode='w', newline='') as file:
+                fieldnames = ["ID", "First Name", "Last Name", "Salary", "Entry Date"]
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(reader)
+        else:
+            print("Confirmation canceled")
+            return
 
 
 def select_family_member_id(family_data):
@@ -192,14 +223,215 @@ def select_family_member_id(family_data):
 
     while True:
         try:
-            selection = int(input("Select a member's ID (or 0 to cancel): "))
+            selection = int(input("Select a member's ID or 0 to cancel: "))
             if 0 <= selection <= len(family_data):
                 return selection
             print("Invalid ID. Please select a valid ID or 0 to cancel.")
         except ValueError:
             print("Invalid ID. Please enter a number or 0 to cancel.")
-
     return 0
+
+
+def expenses():
+    instructions = [
+        {"Key": "A", "Action": "Add new expenses"},
+        {"Key": "E", "Action": "Edit an expense"},
+        {"Key": "C", "Action": "Check current expenses"},
+        {"Key": "D", "Action": "Delete an expense"},
+        {"Key": "Q", "Action": "Quit to Main Menu"}
+    ]
+
+    csv_file = "expenses.csv"
+
+    if not os.path.exists(csv_file):
+        with open(csv_file, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["ExpenseID", "Description", "Amount", "Entry Date"])
+
+    while True:
+        print(tabulate(instructions, headers="keys", tablefmt="rounded_outline"))
+        expense_action = input("Choose one action to proceed: ").strip().upper()
+
+        if expense_action == "A":
+            add_expense(csv_file)
+        elif expense_action == "E":
+            edit_expense(csv_file)
+        elif expense_action == "C":
+            check_expenses(csv_file)
+        elif expense_action == "D":
+            delete_expense(csv_file)
+        elif expense_action == "Q":
+            return True
+        else:
+            print("Invalid action, try again.")
+    return True
+
+
+def add_expense(csv_file):
+    print("Adding a new expense:")
+    description = input("Enter the expense description: ")
+    amount = input("Enter the expense amount: $")
+    entry_date = date.today()
+
+    if not os.path.exists(csv_file):
+        with open(csv_file, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["ExpenseID", "Description", "Amount", "Entry Date"])
+        ExpenseID = 1
+    else:
+        with open(csv_file, mode='r') as file:
+            reader = csv.DictReader(file)
+            expenses = list(reader)
+
+            for expense in expenses:
+                if expense['Description'] == description:
+                    print("Expense already exists.")
+                    return
+
+            ExpenseID = len(expenses) + 1
+
+    new_expense = {"ExpenseID": ExpenseID, "Description": description, "Amount": amount, "Entry Date": entry_date}
+    expenses.append(new_expense)
+
+    with open(csv_file, mode='a', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=["ExpenseID", "Description", "Amount", "Entry Date"])
+        writer.writerow(new_expense)
+
+    print("New expense was added!\n")
+
+
+def edit_expense(csv_file):
+    print("Select the expense to edit:")
+
+    expenses = load_expenses(csv_file)
+
+    if not expenses:
+        print("No expenses found.")
+        return
+
+    print(tabulate(expenses, headers="keys", tablefmt="rounded_outline"))
+
+    while True:
+        selected_id = input("Enter the position (ID) of the expense to edit or 0 to cancel: ").strip()
+
+        if selected_id == "0":
+            return
+
+        try:
+            selected_id = int(selected_id)
+            if not (1 <= selected_id <= len(expenses)):
+                print("Invalid ID. Please enter a valid position.")
+            else:
+                break
+        except ValueError:
+            print("Invalid input. Please enter a valid position or 0 to cancel.")
+
+    selected_expense = expenses[selected_id - 1]
+
+    updated_description = input(f"Enter the updated description for ID {selected_id}: ")
+    updated_amount = input(f"Enter the updated amount for ID {selected_id}: $")
+
+    selected_expense['Description'] = updated_description
+    selected_expense['Amount'] = updated_amount
+
+    save_expenses(expenses, csv_file)
+
+    print(f"Expense ID {selected_id} updated!\n")
+
+
+def delete_expense(csv_file):
+    expenses = load_expenses(csv_file)
+
+    if not expenses:
+        print("No expenses found.")
+        return
+
+    print("Select the expense to delete:")
+    print(tabulate(expenses, headers="keys", tablefmt="fancy_grid"))
+
+    while True:
+        selected_id = input("Enter the position (ID) of the expense to delete or 0 to cancel: ").strip()
+
+        if selected_id == "0":
+            return
+
+        try:
+            selected_id = int(selected_id)
+            if not (1 <= selected_id <= len(expenses)):
+                print("Invalid ID. Please enter a valid position.")
+            else:
+                break
+        except ValueError:
+            print("Invalid input. Please enter a valid position or 0 to cancel.")
+
+    selected_expense = expenses[selected_id - 1]
+
+    print("The following expense will be deleted:")
+    print(tabulate([selected_expense], headers="keys", tablefmt="fancy_grid"))
+
+    confirm_deletion = input("Are you sure? (yes/no): ").strip().lower()
+
+    if confirm_deletion == "yes":
+        expenses.pop(selected_id - 1)
+        save_expenses(expenses, csv_file)
+        print(f"Expense ID {selected_id} deleted!\n")
+    else:
+        print("Deletion canceled.")
+
+
+def load_expenses(csv_file):
+    expenses = []
+
+    if os.path.exists(csv_file):
+        with open(csv_file, mode='r') as file:
+            reader = csv.DictReader(file)
+            expenses = list(reader)
+    return expenses
+
+
+def save_expenses(expenses, csv_file):
+    with open(csv_file, mode='w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=["ExpenseID", "Description", "Amount", "Entry Date"])
+        writer.writeheader()
+        writer.writerows(expenses)
+
+
+def check_expenses(csv_file):
+    expenses = []
+
+    with open(csv_file, mode='r') as file:
+        reader = csv.DictReader(file)
+        expenses = list(reader)
+
+    if expenses:
+        print(tabulate(expenses, headers="keys", tablefmt="rounded_outline"))
+    else:
+        print("No expenses found.")
+    return expenses
+
+
+def calculate_total_salary(csv_file):
+    total_salary = 0
+
+    if os.path.exists(csv_file):
+        with open(csv_file, mode='r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                salary = int(row['Salary'])
+                total_salary += salary
+    return total_salary
+
+
+def calculate_total_expenses(csv_file):
+    total_expenses = 0
+
+    if os.path.exists(csv_file):
+        with open(csv_file, mode='r') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                amount = int(row['Amount'])
+                total_expenses += amount
+    return total_expenses
 
 
 if __name__ == "__main__":
