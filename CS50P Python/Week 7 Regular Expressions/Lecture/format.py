@@ -1,7 +1,0 @@
-import re
-
-name = input("What's your name? ").strip()
-matches = re.search(r"(.+), ?(.+)$", name)
-if matches:
-	name = matches.group(2) + " " + matches.group(1) #second set of parenthesis in line 4 + space + first set of parenthesis in line 4
-print(f"hello, {name}")
