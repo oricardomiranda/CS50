@@ -1,0 +1,28 @@
+body {
+    background-color: #333333; /* Dark gray background */
+    color: #FFFFFF; /* White text color for dark mode */
+}
+
+/* Change the header background and text color for dark mode */
+.header {
+    background-color: #333333; /* Dark gray background for the header */
+    color: #FFFFFF; /* White text color for the header in dark mode */
+}
+
+/* Change the section background and text color for dark mode */
+.section {
+    background-color: #444444; /* Slightly darker gray background for sections */
+    color: #FFFFFF; /* White text color for sections in dark mode */
+}
+
+/* Change the button and input styles for dark mode */
+button,
+input[type="submit"] {
+    background-color: #555555; /* Darker gray background for buttons */
+    color: #FFFFFF; /* White text color for buttons in dark mode */
+}
+
+input[type="text"] {
+    background-color: #555555; /* Darker gray background for input elements */
+    color: #FFFFFF; /* White text color for input elements in dark mode */
+}
