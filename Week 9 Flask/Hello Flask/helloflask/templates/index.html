@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+	<form action="/" method="post">
+		What is your favorite color?
+		<select name="color">
+			<option value="red">
+				Vermelho de merda
+			</option>
+			<option value="blue">
+				Azul glorioso
+			</option>
+		</select>
+		<button type="submit">
+			Submit
+		</button>
+	</form>
+{% endblock %}
