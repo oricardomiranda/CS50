@@ -1,13 +1,8 @@
-import csv
-import datetime
-import pytz
-import requests
-import subprocess
-import urllib
-import uuid
 import os
+import requests
+import urllib.parse
 
-from flask import redirect, render_template, session
+from flask import redirect, render_template, request, session
 from functools import wraps
 
 
@@ -30,7 +25,7 @@ def login_required(f):
     """
     Decorate routes to require login.
 
-    http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
+    https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -42,7 +37,7 @@ def login_required(f):
 
 def lookup(symbol):
     """Look up quote for symbol."""
-    ## export API_KEY=pk_0fc83520a91845dda6a4ca9ef5397d66
+
     # Contact API
     try:
         api_key = os.environ.get("API_KEY")
@@ -58,10 +53,11 @@ def lookup(symbol):
         return {
             "name": quote["companyName"],
             "price": float(quote["latestPrice"]),
-            "symbol": quote["symbol"],
+            "symbol": quote["symbol"]
         }
     except (KeyError, TypeError, ValueError):
         return None
+
 
 def usd(value):
     """Format value as USD."""
