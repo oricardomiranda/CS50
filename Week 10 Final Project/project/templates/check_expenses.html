@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Expenses
+{% endblock %}
+
+{% block main %}
+<form action="/check_expenses" method="get">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Category</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for row in expenses %}
+                <tr>
+                    <td>{{ row["id"] }}</td>
+                    <td>{{ row["category"] }}</td>
+                    <td>{{ row["description"] }}</td>
+                    <td>{{ row["price"] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td></td>
+                <th>Total</th>
+                <th>{{ total_expense }}</th>
+            </tr>
+        </tfoot>
+    </table>
+</form>
+{% endblock %}

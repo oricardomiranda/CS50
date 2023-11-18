@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post" class="mx-auto" style="max-width: 300px;">
+        <h2>New User Registration</h2>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input autocomplete="off" autofocus class="form-control" id="username" name="username" placeholder="Enter your username" type="text" required>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">First Name</label>
+            <input autocomplete="off" autofocus class="form-control" id="name" name="name" placeholder="Enter your first name" type="text" required>
+        </div>
+        <div class="mb-3">
+            <label for="surname" class="form-label">Last Name</label>
+            <input autocomplete="off" autofocus class="form-control" id="surname" name="surname" placeholder="Enter your last name" type="text" required>
+        </div>
+        <div class="mb-3">
+            <label for="salary" class="form-label">Salary</label>
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input autocomplete="off" autofocus class="form-control" id="salary" name="salary" placeholder="Enter your salary" type="number" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input class="form-control" id="password" name="password" placeholder="Enter your password" type="password" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirmation" class="form-label">Confirm Password</label>
+            <input class="form-control" id="confirmation" name="confirmation" placeholder="Confirm your password" type="password" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+{% endblock %}

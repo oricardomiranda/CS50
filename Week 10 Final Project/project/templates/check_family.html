@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Family Information
+{% endblock %}
+
+{% block main %}
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Salary</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in family_db %}
+                <tr>
+                    <td>{{ member["username"] }}</td>
+                    <td>{{ member["name"] }}</td>
+                    <td>{{ member["surname"] }}</td>
+                    <td>{{ member["salary"] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

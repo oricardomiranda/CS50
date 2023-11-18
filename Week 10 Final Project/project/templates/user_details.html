@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    User Details
+{% endblock %}
+
+{% block main %}
+<form action="/user_details" method="get">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Field</th>
+                <th scope="col">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>User ID</td>
+                <td>{{ user_id }}</td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>{{ username }}</td>
+            </tr>
+            <tr>
+                <td>First Name</td>
+                <td>{{ name }}</td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td>{{ surname }}</td>
+            </tr>
+            <tr>
+                <td>Salary</td>
+                <td>{{ salary }}</td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+{% endblock %}

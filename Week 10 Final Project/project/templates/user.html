@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    User
+{% endblock %}
+
+{% block main %}
+    <h3>User Menu</h3>
+
+    <!-- Form for User Details -->
+    <form action="/user_details" method="get">
+        <button class="btn btn-primary" type="submit">User Details</button>
+    </form>
+    <p></p>
+    <!-- Form for Change Password -->
+    <form action="/change_password">
+        <button class="btn btn-primary" type="submit">Change Password</button>
+    </form>
+    <p></p>
+    <!-- Form for Delete Account -->
+    <form action="/delete_user" method="get" >
+        <button class="btn btn-primary" type="submit">Delete Account</button>
+    </form>
+{% endblock %}

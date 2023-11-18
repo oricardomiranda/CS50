@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Expenses
+{% endblock %}
+
+{% block main %}
+    <h1>Add Expenses</h1>
+    <form action="/add_expenses" method="post" class="mx-auto" style="max-width: 300px;">
+        <div class="mb-3">
+            <select name="category">
+                <option value="" disabled selected>Select Category</option>
+                <option value="House">House</option>
+                <option value="Bills">Bills</option>
+                <option value="Car">Car</option>
+                <option value="Taxes">Taxes</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control" id="description" name="description" placeholder="Enter Description" type="text" required>
+        </div>
+        <div class="mb-3">
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input autocomplete="off" autofocus class="form-control" id="price" name="price" placeholder="Enter Price" type="number" required>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Add Expense</button>
+    </form>
+{% endblock %}

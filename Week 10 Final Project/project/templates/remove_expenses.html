@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Remove Expenses
+{% endblock %}
+
+{% block main %}
+    <h1>Remove Expenses</h1>
+    <form action="/remove_expenses" method="post">
+        <div class="mb-3">
+            <select name="expense_id">
+                {% for expense in expenses %}
+                    <option value="{{ expense.id }}">{{ expense.description }} - ${{ expense.price }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-danger" type="submit">Remove Expense</button>
+    </form>
+{% endblock %}
